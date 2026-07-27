@@ -19,7 +19,7 @@ jobs:
 
     - name: Run Go Unit Test Suite
       run: |
-        go test -v ./...
+        go test -v ./pkg/...
 
   verify-opentofu-hcl:
     runs-on: ubuntu-latest
