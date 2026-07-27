@@ -1,0 +1,23 @@
+# Compiled Go binaries
+*.exe
+*.exe;
+*.dll
+*.so
+*.dylib
+bin/
+tofu-runner
+
+# Test coverage logs
+*.out
+*.log
+
+# OpenTofu & Terraform cache
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+.tofu/
+
+# IDE files
+.idea/
+.vscode/
