@@ -2,7 +2,7 @@
 
 The **OpenTofu Blueprints** repository contains production-ready Infrastructure-as-Code (IaC) blueprints targeting AWS and Azure cloud platforms using **OpenTofu HCL**.
 
-![OpenTofu Infrastructure Engine Architecture](images/architecture_diagram.jpg)
+![OpenTofu Infrastructure Engine Architecture](https://raw.githubusercontent.com/Devopstrio/opentofu-blueprints/main/docs/images/architecture_diagram.jpg)
 
 ## OpenTofu CI Validation Sequence
 

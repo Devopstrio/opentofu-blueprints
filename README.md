@@ -20,7 +20,7 @@ The **OpenTofu Blueprints** repository provides production-ready Infrastructure-
 
 It contains verified HCL modules for deploying multi-cloud virtual networks, subnets, and foundational infrastructure.
 
-![OpenTofu Infrastructure Engine Architecture](docs/images/architecture_diagram.jpg)
+![OpenTofu Infrastructure Engine Architecture](https://raw.githubusercontent.com/Devopstrio/opentofu-blueprints/main/docs/images/architecture_diagram.jpg)
 
 ---
 
