@@ -16,9 +16,11 @@ jobs:
       uses: actions/setup-go@v5
       with:
         go-version: '1.22'
+        cache: false
 
     - name: Run Go Unit Test Suite
       run: |
+        go mod tidy
         go test -v ./...
 
   verify-opentofu-hcl:
