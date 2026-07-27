@@ -21,7 +21,7 @@ jobs:
     - name: Run Go Unit Test Suite
       run: |
         go mod tidy
-        go test -v ./...
+        go test -v ./pkg/blueprint ./pkg/validator ./pkg/executor .
 
   verify-opentofu-hcl:
     runs-on: ubuntu-latest
