@@ -4,36 +4,35 @@
 
 # opentofu-blueprints
 
-### OpenTofu HCL Blueprint Engine & Golang Infrastructure Orchestrator
+### Enterprise OpenTofu Infrastructure-as-Code (IaC) Blueprints
 
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square)](https://devopstrio.co.uk)
-[![Go Version](https://img.shields.io/badge/Go-1.22%2B-00ADD8.svg?style=flat-square)](https://go.dev)
 [![OpenTofu Version](https://img.shields.io/badge/OpenTofu-v1.6%2B-FF5722?style=flat-square)](https://opentofu.org)
+[![HCL Standard](https://img.shields.io/badge/IaC-OpenTofu_HCL-623CE4?style=flat-square)](https://opentofu.org)
 
 </div>
 
 ---
 
-## ⚡ Technical Overview & Pure Golang Architecture
+## ⚡ Technical Overview & OpenTofu Scope
 
-The **OpenTofu Blueprints Engine** is a high-performance infrastructure orchestration platform written in **pure Golang (Go)** paired with **OpenTofu HCL** infrastructure modules.
+The **OpenTofu Blueprints** repository provides production-ready Infrastructure-as-Code (IaC) blueprints targeting AWS and Azure cloud platforms using **OpenTofu HCL**.
 
-It eliminates Python dependencies for cloud native automation, leveraging Go's native speed, strict typing, and concurrency to parse OpenTofu blueprints, validate zero-trust security baselines, and execute multi-cloud infrastructure plans.
+It contains verified HCL modules for deploying multi-cloud virtual networks, subnets, and foundational infrastructure.
 
 ![OpenTofu Infrastructure Engine Architecture](docs/images/architecture_diagram.jpg)
 
 ---
 
-## 🔄 Golang Execution Sequence Flow
+## 🔄 OpenTofu CI Validation Flow
 
 ```mermaid
 flowchart TD
-    CLI[tofu-runner Golang CLI] -->|1. Parse HCL Path| Parser[Go Blueprint Parser Module]
-    Parser -->|2. Validate Zero-Trust Rules| Validator[Go Security Validator Module]
-    Validator --> IsCompliant{Is Policy Compliant?}
-    IsCompliant -- Violations Found --> Halt[Halt & Exit 1]
-    IsCompliant -- Policy Compliant --> Executor[Go OpenTofu Executor Engine]
-    Executor -->|3. Execute tofu plan & apply| MultiCloud[AWS / Azure Cloud Subsystems]
+    GitHubActions[GitHub Actions CI Pipeline] -->|1. Checkout Repository| SetupTofu[Setup OpenTofu CLI 1.6.2]
+    SetupTofu -->|2. Validate AWS Blueprint| AWSModule[blueprints/aws-kubernetes]
+    SetupTofu -->|3. Validate Azure Blueprint| AzureModule[blueprints/azure-landingzone]
+    AWSModule -->|tofu fmt & tofu validate| CleanAWS[AWS HCL Validated]
+    AzureModule -->|tofu fmt & tofu validate| CleanAzure[Azure HCL Validated]
 ```
 
 ---
@@ -44,25 +43,12 @@ flowchart TD
 opentofu-blueprints/
 ├── .github/
 │   └── workflows/
-│       └── tofu-ci.yml          # GitHub Actions Go & OpenTofu CI pipeline
+│       └── tofu-ci.yml          # GitHub Actions OpenTofu HCL CI pipeline
 ├── docs/
 │   ├── ARCHITECTURE.md          # Architecture specification document
 │   ├── deployment-guide.md      # Integration & deployment manual
 │   └── images/
 │       └── architecture_diagram.jpg # Visual blueprint diagram
-├── go.mod                       # Go module manifest
-├── go.sum                       # Go checksum lockfile
-├── main.go                      # Go CLI binary entrypoint (tofu-runner)
-├── pkg/
-│   ├── blueprint/
-│   │   ├── parser.go            # Go HCL blueprint parser
-│   │   └── parser_test.go       # Native Go unit tests
-│   ├── validator/
-│   │   ├── validator.go         # Go security policy validator
-│   │   └── validator_test.go    # Native Go unit tests
-│   └── executor/
-│       ├── executor.go          # Go OpenTofu execution engine
-│       └── executor_test.go     # Native Go unit tests
 ├── blueprints/
 │   ├── aws-kubernetes/
 │   │   ├── main.tf              # AWS EKS VPC HCL blueprint
@@ -76,34 +62,29 @@ opentofu-blueprints/
 │   ├── install-opentofu.sh      # OpenTofu installer script
 │   └── verify-blueprints.sh     # OpenTofu HCL verification script
 ├── .gitignore                   # Git ignore file
-└── README.md                    # Engine manual documentation
+└── README.md                    # Infrastructure manual documentation
 ```
 
 ---
 
 ## 🚀 Quick Start Guide
 
-### 1. Build Golang CLI Binary
+### 1. Deploy AWS Kubernetes Blueprint
 
 ```bash
-# Clone repository
-git clone https://github.com/Devopstrio/opentofu-blueprints.git
-cd opentofu-blueprints
-
-# Build Go binary
-go build -o tofu-runner main.go
+cd blueprints/aws-kubernetes
+tofu init
+tofu plan
+tofu apply -auto-approve
 ```
 
-### 2. Run OpenTofu Blueprint Provisioner
+### 2. Deploy Azure Landing Zone Blueprint
 
 ```bash
-./tofu-runner blueprints/aws-kubernetes
-```
-
-### 3. Run Native Go Test Suite
-
-```bash
-go test -v ./...
+cd blueprints/azure-landingzone
+tofu init
+tofu plan
+tofu apply -auto-approve
 ```
 
 <div align="center">

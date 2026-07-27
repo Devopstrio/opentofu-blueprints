@@ -1,4 +1,4 @@
-name: OpenTofu Blueprints & Golang Engine CI Pipeline
+name: OpenTofu Blueprints CI Pipeline
 
 on:
   push:
@@ -7,24 +7,7 @@ on:
     branches: [ main, master ]
 
 jobs:
-  test-golang:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.22'
-        cache: true
-        cache-dependency-path: go.sum
-
-    - name: Run Go Unit Test Suite
-      run: |
-        go mod tidy
-        go test -v ./pkg/blueprint ./pkg/validator ./pkg/executor .
-
-  verify-opentofu-hcl:
+  verify-opentofu-blueprints:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -34,9 +17,16 @@ jobs:
       with:
         tofu_version: 1.6.2
 
-    - name: Verify OpenTofu HCL Syntax
+    - name: Format & Validate AWS Kubernetes Blueprint
       run: |
         cd blueprints/aws-kubernetes
+        tofu fmt -check
+        tofu init -backend=false
+        tofu validate
+
+    - name: Format & Validate Azure Landing Zone Blueprint
+      run: |
+        cd blueprints/azure-landingzone
         tofu fmt -check
         tofu init -backend=false
         tofu validate

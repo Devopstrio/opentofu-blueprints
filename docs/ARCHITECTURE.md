@@ -1,31 +1,24 @@
 # OpenTofu Infrastructure Engine Architecture
 
-The **OpenTofu Blueprints Engine** provides high-performance, open-source IaC orchestration using native **Golang** CLI runners and **OpenTofu HCL** infrastructure modules.
+The **OpenTofu Blueprints** repository contains production-ready Infrastructure-as-Code (IaC) blueprints targeting AWS and Azure cloud platforms using **OpenTofu HCL**.
 
 ![OpenTofu Infrastructure Engine Architecture](images/architecture_diagram.jpg)
 
-## Component Sequence Diagram
+## OpenTofu CI Validation Sequence
 
 ```mermaid
 flowchart TD
-    CLI[tofu-runner Golang CLI] -->|1. Parse HCL Path| Parser[Go Blueprint Parser Module]
-    Parser -->|2. Validate Zero-Trust Rules| Validator[Go Security Validator Module]
-    Validator --> IsCompliant{Is Policy Compliant?}
-    IsCompliant -- Violations Found --> Halt[Halt & Exit 1]
-    IsCompliant -- Policy Compliant --> Executor[Go OpenTofu Executor Engine]
-    Executor -->|3. Execute tofu plan & apply| MultiCloud[AWS / Azure Cloud Subsystems]
+    GitHubActions[GitHub Actions CI Pipeline] -->|1. Checkout Repository| SetupTofu[Setup OpenTofu CLI 1.6.2]
+    SetupTofu -->|2. Validate AWS Blueprint| AWSModule[blueprints/aws-kubernetes]
+    SetupTofu -->|3. Validate Azure Blueprint| AzureModule[blueprints/azure-landingzone]
+    AWSModule -->|tofu fmt & tofu validate| CleanAWS[AWS HCL Validated]
+    AzureModule -->|tofu fmt & tofu validate| CleanAzure[Azure HCL Validated]
 ```
 
-## Core Infrastructure & Golang Packages
+## Production OpenTofu Blueprints
 
-1. **Golang Blueprint Parser (`pkg/blueprint/parser.go`)**
-   - Parses OpenTofu HCL directories and metadata.
+1. **AWS Kubernetes Infrastructure Blueprint (`blueprints/aws-kubernetes`)**
+   - High availability AWS VPC, subnets, and routing table configuration in HCL (`main.tf`, `variables.tf`, `outputs.tf`).
 
-2. **Golang Security Validator (`pkg/validator/validator.go`)**
-   - Evaluates zero-trust policy rules against blueprint resources.
-
-3. **Golang OpenTofu Executor (`pkg/executor/executor.go`)**
-   - Orchestrates OpenTofu binary execution (`tofu plan`, `tofu apply`).
-
-4. **Native OpenTofu HCL Modules (`blueprints/`)**
-   - Production HCL modules (`main.tf`, `variables.tf`, `outputs.tf`).
+2. **Azure Landing Zone Infrastructure Blueprint (`blueprints/azure-landingzone`)**
+   - Enterprise Azure Resource Group and Virtual Network configuration in HCL (`main.tf`, `variables.tf`, `outputs.tf`).
