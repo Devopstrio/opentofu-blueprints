@@ -16,7 +16,8 @@ jobs:
       uses: actions/setup-go@v5
       with:
         go-version: '1.22'
-        cache: false
+        cache: true
+        cache-dependency-path: go.sum
 
     - name: Run Go Unit Test Suite
       run: |

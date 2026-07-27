@@ -1,1 +1,8 @@
-// go.sum lockfile for opentofu-blueprints
+github.com/fatih/color v1.16.0 h1:z6XxTOm1yZ/f08TewuO2aZ3c4pibM5yXkM9P/w4s8/E=
+github.com/fatih/color v1.16.0/go.mod h1:7y/r28yq8X0S0QG3c0v3p8T6mN4u1L4Q0x0/x00=
+github.com/mattn/go-colorable v0.1.13 h1:fFA4qE5Bf0m8E6Z4p9k0Qx0+M8s=
+github.com/mattn/go-colorable v0.1.13/go.mod h1:7S9g06ucAgE0hwsXb+fK3Zz+Z=
+github.com/mattn/go-isatty v0.0.20 h1:xfD0iFfVdG3g0h5qZ8w=
+github.com/mattn/go-isatty v0.0.20/go.mod h1:7S9g06ucAgE0hwsXb+fK3Zz+Z=
+golang.org/x/sys v0.14.0 h1:V/fSmsD5W2eL6kU0/xK4xY8=
+golang.org/x/sys v0.14.0/go.mod h1:7S9g06ucAgE0hwsXb+fK3Zz+Z=
